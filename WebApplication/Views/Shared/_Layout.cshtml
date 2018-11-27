@@ -1,0 +1,52 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="robots" content="noindex,nofollow"/>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Craveates - when you crave</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container" style="padding:0.3em 0em 0.3em 0em;">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @*Html.ActionLink("Craveats", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })*@
+                <a href='@Url.Action("Index", "Home")' style="margin-top:5px;margin-bottom:5px;display:block;">
+                    <img src='@Url.Content("~/Content/images/CraveatsNewText_215x65.png")' />
+                </a>
+            </div>
+            <div class="navbar-collapse collapse sitebg" style="min-height:75px;height:75px;">
+                <ul class="nav navbar-nav" style="margin-top:5px;margin-bottom:5px;">
+                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                    @*<li>@Html.ActionLink("About", "About", "Home")</li>
+                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>*@
+                    <li>@Html.ActionLink("Profile", "ProfileView", "Profile")</li>
+                    <li>@Html.ActionLink("Messages", "HoldingMessages", "HoldingPage")</li>
+                    <li>@Html.ActionLink("Orders", "HoldingOrders", "HoldingPage")</li>
+                    <li>@Html.ActionLink("Checkout", "HoldingCheckout", "HoldingPage")</li>
+                </ul>
+                @Html.Partial("_LoginPartial")
+            </div>
+        </div>
+    </div>
+    <div class="container body-content" style="margin-top:3em;">
+        @RenderBody()
+        <hr />
+        <footer class="sitebg" style="padding-top:0.4em;padding-bottom:0.1em;">
+            <p>&copy; @DateTime.Now.Year - Craveats - when you crave</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

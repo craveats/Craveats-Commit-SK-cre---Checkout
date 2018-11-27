@@ -1,0 +1,12 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Generic.Obfuscation.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="TDESKeyHex" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">123A 456B 789C 012D 345E 678F 901A 234B C567 D890 E123 F456</Value>
+    </Setting>
+    <Setting Name="TDESIVHex" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">345E 87F6 9A01 B423</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

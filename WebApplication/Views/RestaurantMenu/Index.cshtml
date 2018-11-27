@@ -1,0 +1,80 @@
+﻿@model PagedList.IPagedList<WebApplication.DAL.RestaurantMenu>
+@using PagedList.Mvc;
+@using Generic.Obfuscation.TripleDES;
+
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Restaurant Menus</h2>
+
+<div>
+    <h4>Manage @ViewBag.AssetTypeName</h4>
+
+    <p>
+        @Html.ActionLink("Create New", "Create", new { ownerType = ViewBag.ownerType, ownerId = ViewBag.ownerId })
+    </p>
+    @using (Html.BeginForm("Index", "RestaurantMenu", FormMethod.Get))
+    {
+        <input type="hidden" name="ownerType" value=@ViewBag.ownerType />
+        <input type="hidden" name="ownerId" value=@ViewBag.ownerId />
+
+        <p>
+            Find by name: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+            <input type="submit" value="Search" />
+        </p>
+    }
+    <table class="table">
+        <tr>
+            <th>
+                @Html.ActionLink("Name", "Index", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })
+            </th>
+            <th>
+                Detail
+            </th>
+            <th>
+                @Html.ActionLink("Last Updated", "Index", new { sortOrder = ViewBag.DateSortParm, currentFilter = ViewBag.CurrentFilter })
+            </th>
+            <th></th>
+        </tr>
+
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Detail)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LastUpdated)
+                </td>
+                <td>
+                    [ @Html.ActionLink("View Restaurants", "Index", "Restaurant"/*, new {
+                 id = DataSecurityTripleDES.GetEncryptedText(item.OwnerId)*//*,
+                 ownerType = DataSecurityTripleDES.GetEncryptedText((int)WebApplication.Common.OwnerTypeEnum.ServiceProvider),
+                 ownerId = DataSecurityTripleDES.GetEncryptedText(item.Id)*/ /*}, null*/) |
+                    @Html.ActionLink("Edit", "Edit", new { id = DataSecurityTripleDES.GetEncryptedText(item.Id) }) |
+                    @Html.ActionLink("Details", "Details", new { id = DataSecurityTripleDES.GetEncryptedText(item.Id) }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = DataSecurityTripleDES.GetEncryptedText(item.Id) }) ]
+                </td>
+            </tr>
+        }
+
+    </table>
+    <br />
+    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+    @Html.PagedListPager(Model, page => Url.Action("Index",
+        new { ownerType = ViewBag.ownerType, ownerId = ViewBag.ownerId, page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

@@ -1,0 +1,960 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Craveats.DataStoreModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Address">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Line1" Type="nvarchar" MaxLength="255" />
+          <Property Name="Line2" Type="nvarchar" MaxLength="255" />
+          <Property Name="City" Type="nvarchar" MaxLength="255" />
+          <Property Name="RegionId" Type="int" />
+          <Property Name="Postcode" Type="nvarchar" MaxLength="50" />
+          <Property Name="CountryId" Type="int" />
+          <Property Name="OwnerType" Type="int" />
+          <Property Name="OwnerId" Type="int" />
+          <Property Name="AddressStatus" Type="int" />
+        </EntityType>
+        <EntityType Name="Category">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="255" />
+          <Property Name="CategoryStatus" Type="int" />
+        </EntityType>
+        <EntityType Name="CategoryRelation">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CategoryId" Type="int" />
+          <Property Name="OwnerType" Type="int" />
+          <Property Name="OwnerId" Type="int" />
+          <Property Name="CategoryRelationStatus" Type="int" />
+        </EntityType>
+        <EntityType Name="Comment">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="OwnerType" Type="int" />
+          <Property Name="OwnerId" Type="int" />
+          <Property Name="Detail" Type="nvarchar" MaxLength="4000" />
+          <Property Name="TargetType" Type="int" />
+          <Property Name="TargetId" Type="int" />
+          <Property Name="DateCreated" Type="datetime" />
+          <Property Name="CommentStatus" Type="int" />
+        </EntityType>
+        <EntityType Name="Country">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="ISO2" Type="char" MaxLength="2" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="255" />
+          <Property Name="ISO3" Type="char" MaxLength="3" Nullable="false" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Enquiry">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DateCreated" Type="datetime" />
+          <Property Name="EmailAddress" Type="varchar" MaxLength="255" />
+          <Property Name="UserId" Type="int" />
+          <Property Name="ReviewedBy" Type="int" />
+          <Property Name="ReviewDate" Type="datetime" />
+          <Property Name="EnquiryStatus" Type="int" />
+          <Property Name="Notes" Type="nvarchar" MaxLength="4000" />
+        </EntityType>
+        <EntityType Name="Order">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="int" />
+          <Property Name="SessionId" Type="int" />
+          <Property Name="DateCreated" Type="datetime" />
+          <Property Name="LastUpdated" Type="datetime" />
+          <Property Name="OrderStatus" Type="int" />
+          <Property Name="EstimatedDeliveryDate" Type="datetime" />
+          <Property Name="DeliveryAddressId" Type="int" />
+          <Property Name="OrderTotal" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="DiscountTotal" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="TaxTotal" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="RevisedOrderId" Type="int" />
+          <Property Name="DateCompleted" Type="datetime" />
+        </EntityType>
+        <EntityType Name="OrderDetail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="OrderId" Type="int" />
+          <Property Name="ServiceId" Type="int" />
+          <Property Name="ServiceOwnerType" Type="int" />
+          <Property Name="ServiceOwnerId" Type="int" />
+          <Property Name="UnitPrice" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="IsTaxable" Type="bit" />
+          <Property Name="TaxRate" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="CommentId" Type="int" />
+        </EntityType>
+        <EntityType Name="OrderFreight">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="OrderId" Type="int" />
+          <Property Name="OrderDetailId" Type="int" />
+          <Property Name="ServiceId" Type="int" />
+          <Property Name="ServiceProviderId" Type="int" />
+          <Property Name="VendorId" Type="int" />
+          <Property Name="DateCreated" Type="datetime" />
+          <Property Name="DateDispatched" Type="datetime" />
+          <Property Name="DateDelivered" Type="datetime" />
+        </EntityType>
+        <EntityType Name="OrderPayment">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PaymentType" Type="int" />
+          <Property Name="TotalAmount" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="CreditCardType" Type="int" />
+          <Property Name="CreditCardNumber" Type="varchar" MaxLength="50" />
+          <Property Name="CreditCardExpiry" Type="varchar" MaxLength="50" />
+          <Property Name="NameOnCard" Type="nvarchar" MaxLength="255" />
+          <Property Name="DateProcessed" Type="datetime" />
+          <Property Name="GatewayResponseCode" Type="varchar" MaxLength="1000" />
+          <Property Name="GatewayResponseVerbose" Type="varchar" MaxLength="1000" />
+          <Property Name="OrderId" Type="int" />
+        </EntityType>
+        <EntityType Name="Region">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RegionName" Type="nvarchar" MaxLength="255" />
+          <Property Name="CountryISO2" Type="char" MaxLength="2" />
+          <Property Name="RegionAlias" Type="nvarchar" MaxLength="25" />
+        </EntityType>
+        <EntityType Name="Restaurant">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="255" />
+          <Property Name="Brief" Type="nvarchar" MaxLength="400" />
+          <Property Name="Detail" Type="nvarchar" MaxLength="2500" />
+          <Property Name="AddressId" Type="int" />
+          <Property Name="ContactNumber" Type="varchar" MaxLength="50" />
+          <Property Name="EmailAddress" Type="varchar" MaxLength="255" />
+          <Property Name="ServiceProviderStatus" Type="int" />
+          <Property Name="AssetUrl" Type="varchar" MaxLength="500" />
+          <Property Name="PartnerUserId" Type="int" />
+          <Property Name="ReviewedBy" Type="int" />
+          <Property Name="ReviewDate" Type="datetime" />
+          <Property Name="DateAdded" Type="datetime" />
+          <Property Name="LastUpdated" Type="datetime" />
+        </EntityType>
+        <EntityType Name="RestaurantMenu">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ServiceStatus" Type="int" />
+          <Property Name="Name" Type="nvarchar" MaxLength="255" />
+          <Property Name="Brief" Type="nvarchar" MaxLength="400" />
+          <Property Name="Detail" Type="nvarchar" MaxLength="2500" />
+          <Property Name="UnitPrice" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="IsTaxable" Type="bit" />
+          <Property Name="TaxRate" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="AssetUrl" Type="varchar" MaxLength="500" />
+          <Property Name="OwnerType" Type="int" />
+          <Property Name="OwnerId" Type="int" />
+          <Property Name="DateAdded" Type="datetime" />
+          <Property Name="LastUpdated" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Search">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="int" />
+          <Property Name="SearchTerm" Type="nvarchar" MaxLength="255" />
+          <Property Name="DateCreated" Type="datetime" />
+        </EntityType>
+        <EntityType Name="SessionTracking">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SessionID" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="IPAddress" Type="varchar" MaxLength="50" />
+          <Property Name="UserId" Type="int" />
+          <Property Name="CreatedAt" Type="datetime" />
+          <Property Name="LoggedInAt" Type="datetime" />
+          <Property Name="LoggedOutAt" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Settings">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="SMTPHost" Type="varchar" MaxLength="255" />
+          <Property Name="SMTPRequiresSSL" Type="bit" />
+          <Property Name="SMTPRequiresTLS" Type="bit" />
+          <Property Name="SMTPRequiresAuth" Type="bit" />
+          <Property Name="SMTPSSLPort" Type="int" />
+          <Property Name="SMTPTLSPort" Type="int" />
+          <Property Name="SMTPUserName" Type="varchar" MaxLength="255" />
+          <Property Name="SMTPPassword" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Salutation" Type="nvarchar" MaxLength="50" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="150" />
+          <Property Name="Surname" Type="nvarchar" MaxLength="150" />
+          <Property Name="EmailAddress" Type="varchar" MaxLength="255" />
+          <Property Name="ContactNumber" Type="varchar" MaxLength="50" />
+          <Property Name="UserStatus" Type="int" />
+          <Property Name="UserTypeFlag" Type="int" />
+          <Property Name="LastUpdated" Type="datetime" />
+          <Property Name="Password" Type="varchar" MaxLength="100" />
+          <Property Name="DateCreated" Type="datetime" />
+          <Property Name="ResetCode" Type="varchar" MaxLength="50" />
+          <Property Name="ResetCodeSentAt" Type="datetime" />
+          <Property Name="ResetCodeExpiry" Type="datetime" />
+          <Property Name="AddressId" Type="int" />
+          <Property Name="ProfileAssetUrl" Type="varchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="Vendor">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="VendorType" Type="int" />
+          <Property Name="CompanyName" Type="nvarchar" MaxLength="250" />
+          <Property Name="ContactName" Type="nvarchar" MaxLength="255" />
+          <Property Name="ContactPosition" Type="nvarchar" MaxLength="255" />
+          <Property Name="AddressId" Type="int" />
+          <Property Name="PhoneNumber" Type="varchar" MaxLength="50" />
+          <Property Name="FaxNumber" Type="varchar" MaxLength="50" />
+          <Property Name="EmailAddress" Type="varchar" MaxLength="255" />
+          <Property Name="WebUrl" Type="varchar" MaxLength="255" />
+          <Property Name="VendorStatus" Type="int" />
+        </EntityType>
+        <Function Name="DoesRegistrantExist" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="emailAddress" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="GetMenuItem" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="searchterm" Type="varchar" Mode="In" />
+          <Parameter Name="orderby" Type="int" Mode="In" />
+        </Function>
+        <Function Name="GetUserByEmail" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="emailAddress" Type="varchar" Mode="In" />
+        </Function>
+        <EntityContainer Name="CraveatsDataStoreModelStoreContainer">
+          <EntitySet Name="Address" EntityType="Self.Address" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Category" EntityType="Self.Category" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CategoryRelation" EntityType="Self.CategoryRelation" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Comment" EntityType="Self.Comment" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Country" EntityType="Self.Country" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Enquiry" EntityType="Self.Enquiry" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Order" EntityType="Self.Order" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OrderDetail" EntityType="Self.OrderDetail" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OrderFreight" EntityType="Self.OrderFreight" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OrderPayment" EntityType="Self.OrderPayment" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Region" EntityType="Self.Region" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Restaurant" EntityType="Self.Restaurant" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RestaurantMenu" EntityType="Self.RestaurantMenu" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Search" EntityType="Self.Search" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SessionTracking" EntityType="Self.SessionTracking" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Settings" EntityType="Self.Settings" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Vendor" EntityType="Self.Vendor" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Craveats.DataStoreModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Address">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Line1" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Line2" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="City" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="RegionId" Type="Int32" />
+          <Property Name="Postcode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CountryId" Type="Int32" />
+          <Property Name="OwnerType" Type="Int32" />
+          <Property Name="OwnerId" Type="Int32" />
+          <Property Name="AddressStatus" Type="Int32" />
+        </EntityType>
+        <EntityType Name="Category">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="CategoryStatus" Type="Int32" />
+        </EntityType>
+        <EntityType Name="CategoryRelation">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CategoryId" Type="Int32" />
+          <Property Name="OwnerType" Type="Int32" />
+          <Property Name="OwnerId" Type="Int32" />
+          <Property Name="CategoryRelationStatus" Type="Int32" />
+        </EntityType>
+        <EntityType Name="Comment">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OwnerType" Type="Int32" />
+          <Property Name="OwnerId" Type="Int32" />
+          <Property Name="Detail" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Name="TargetType" Type="Int32" />
+          <Property Name="TargetId" Type="Int32" />
+          <Property Name="DateCreated" Type="DateTime" Precision="3" />
+          <Property Name="CommentStatus" Type="Int32" />
+        </EntityType>
+        <EntityType Name="Country">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="ISO2" Type="String" MaxLength="2" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="ISO3" Type="String" MaxLength="3" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <EntityType Name="Enquiry">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DateCreated" Type="DateTime" Precision="3" />
+          <Property Name="EmailAddress" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="UserId" Type="Int32" />
+          <Property Name="ReviewedBy" Type="Int32" />
+          <Property Name="ReviewDate" Type="DateTime" Precision="3" />
+          <Property Name="EnquiryStatus" Type="Int32" />
+          <Property Name="Notes" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Order">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="Int32" />
+          <Property Name="SessionId" Type="Int32" />
+          <Property Name="DateCreated" Type="DateTime" Precision="3" />
+          <Property Name="LastUpdated" Type="DateTime" Precision="3" />
+          <Property Name="OrderStatus" Type="Int32" />
+          <Property Name="EstimatedDeliveryDate" Type="DateTime" Precision="3" />
+          <Property Name="DeliveryAddressId" Type="Int32" />
+          <Property Name="OrderTotal" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="DiscountTotal" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="TaxTotal" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="RevisedOrderId" Type="Int32" />
+          <Property Name="DateCompleted" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="OrderDetail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OrderId" Type="Int32" />
+          <Property Name="ServiceId" Type="Int32" />
+          <Property Name="ServiceOwnerType" Type="Int32" />
+          <Property Name="ServiceOwnerId" Type="Int32" />
+          <Property Name="UnitPrice" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="IsTaxable" Type="Boolean" />
+          <Property Name="TaxRate" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="CommentId" Type="Int32" />
+        </EntityType>
+        <EntityType Name="OrderFreight">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OrderId" Type="Int32" />
+          <Property Name="OrderDetailId" Type="Int32" />
+          <Property Name="ServiceId" Type="Int32" />
+          <Property Name="ServiceProviderId" Type="Int32" />
+          <Property Name="VendorId" Type="Int32" />
+          <Property Name="DateCreated" Type="DateTime" Precision="3" />
+          <Property Name="DateDispatched" Type="DateTime" Precision="3" />
+          <Property Name="DateDelivered" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="OrderPayment">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PaymentType" Type="Int32" />
+          <Property Name="TotalAmount" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="CreditCardType" Type="Int32" />
+          <Property Name="CreditCardNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CreditCardExpiry" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="NameOnCard" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="DateProcessed" Type="DateTime" Precision="3" />
+          <Property Name="GatewayResponseCode" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="GatewayResponseVerbose" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="OrderId" Type="Int32" />
+        </EntityType>
+        <EntityType Name="Region">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RegionName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="CountryISO2" Type="String" MaxLength="2" FixedLength="true" Unicode="false" />
+          <Property Name="RegionAlias" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Search">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="Int32" />
+          <Property Name="SearchTerm" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="DateCreated" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="SessionTracking">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SessionID" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="IPAddress" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="UserId" Type="Int32" />
+          <Property Name="CreatedAt" Type="DateTime" Precision="3" />
+          <Property Name="LoggedInAt" Type="DateTime" Precision="3" />
+          <Property Name="LoggedOutAt" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="Settings">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="SMTPHost" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="SMTPRequiresSSL" Type="Boolean" />
+          <Property Name="SMTPRequiresTLS" Type="Boolean" />
+          <Property Name="SMTPRequiresAuth" Type="Boolean" />
+          <Property Name="SMTPSSLPort" Type="Int32" />
+          <Property Name="SMTPTLSPort" Type="Int32" />
+          <Property Name="SMTPUserName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="SMTPPassword" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Salutation" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="FirstName" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="Surname" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="EmailAddress" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="ContactNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="UserStatus" Type="Int32" />
+          <Property Name="UserTypeFlag" Type="Int32" />
+          <Property Name="LastUpdated" Type="DateTime" Precision="3" />
+          <Property Name="Password" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="DateCreated" Type="DateTime" Precision="3" />
+          <Property Name="ResetCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ResetCodeSentAt" Type="DateTime" Precision="3" />
+          <Property Name="ResetCodeExpiry" Type="DateTime" Precision="3" />
+          <Property Name="AddressId" Type="Int32" />
+          <Property Name="ProfileAssetUrl" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Vendor">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="VendorType" Type="Int32" />
+          <Property Name="CompanyName" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="ContactName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="ContactPosition" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="AddressId" Type="Int32" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FaxNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="EmailAddress" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="WebUrl" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="VendorStatus" Type="Int32" />
+        </EntityType>
+        <EntityContainer Name="EFDMConnSettings" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Address" EntityType="Self.Address" />
+          <EntitySet Name="Category" EntityType="Self.Category" />
+          <EntitySet Name="CategoryRelation" EntityType="Self.CategoryRelation" />
+          <EntitySet Name="Comment" EntityType="Self.Comment" />
+          <EntitySet Name="Country" EntityType="Self.Country" />
+          <EntitySet Name="Enquiry" EntityType="Self.Enquiry" />
+          <EntitySet Name="Order" EntityType="Self.Order" />
+          <EntitySet Name="OrderDetail" EntityType="Self.OrderDetail" />
+          <EntitySet Name="OrderFreight" EntityType="Self.OrderFreight" />
+          <EntitySet Name="OrderPayment" EntityType="Self.OrderPayment" />
+          <EntitySet Name="Region" EntityType="Self.Region" />
+          <EntitySet Name="Search" EntityType="Self.Search" />
+          <EntitySet Name="SessionTracking" EntityType="Self.SessionTracking" />
+          <EntitySet Name="Settings" EntityType="Self.Settings" />
+          <EntitySet Name="User" EntityType="Self.User" />
+          <EntitySet Name="Vendor" EntityType="Self.Vendor" />
+          <FunctionImport Name="AuthenticateUser" ReturnType="Collection(Craveats.DataStoreModel.AuthenticateUser_Result)">
+            <Parameter Name="emailAddress" Mode="In" Type="String" />
+            <Parameter Name="password" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="DoesRegistrantExist" ReturnType="Collection(Boolean)">
+          <Parameter Name="emailAddress" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="GetUserByEmail" ReturnType="Collection(Craveats.DataStoreModel.GetUserByEmail_Result)">
+          <Parameter Name="emailAddress" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="Restaurant" EntityType="Craveats.DataStoreModel.Restaurant" />
+          <EntitySet Name="RestaurantMenu" EntityType="Craveats.DataStoreModel.RestaurantMenu" />
+          <FunctionImport Name="GetMenuItem" ReturnType="Collection(Craveats.DataStoreModel.GetMenuItem_Result)">
+            <Parameter Name="searchterm" Mode="In" Type="String" />
+            <Parameter Name="orderby" Mode="In" Type="Int32" />
+          </FunctionImport>
+        </EntityContainer>
+        <ComplexType Name="AuthenticateUser_Result">
+          <Property Type="Int32" Name="Id" Nullable="false" />
+          <Property Type="String" Name="Salutation" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="FirstName" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="Surname" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="EmailAddress" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="ContactNumber" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="UserStatus" Nullable="true" />
+          <Property Type="Int32" Name="UserTypeFlag" Nullable="true" />
+          <Property Type="DateTime" Name="LastUpdated" Nullable="true" Precision="23" />
+          <Property Type="String" Name="Password" Nullable="true" MaxLength="100" />
+          <Property Type="DateTime" Name="DateCreated" Nullable="true" Precision="23" />
+          <Property Type="String" Name="ResetCode" Nullable="true" MaxLength="50" />
+          <Property Type="DateTime" Name="ResetCodeSentAt" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="ResetCodeExpiry" Nullable="true" Precision="23" />
+          <Property Type="Int32" Name="AddressId" Nullable="true" />
+          <Property Type="String" Name="ProfileAssetUrl" Nullable="true" MaxLength="500" />
+        </ComplexType>
+        <ComplexType Name="GetUserByEmail_Result">
+          <Property Type="Int32" Name="Id" Nullable="false" />
+          <Property Type="String" Name="Salutation" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="FirstName" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="Surname" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="EmailAddress" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="ContactNumber" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="UserStatus" Nullable="true" />
+          <Property Type="Int32" Name="UserTypeFlag" Nullable="true" />
+          <Property Type="DateTime" Name="LastUpdated" Nullable="true" Precision="23" />
+          <Property Type="String" Name="Password" Nullable="true" MaxLength="100" />
+          <Property Type="DateTime" Name="DateCreated" Nullable="true" Precision="23" />
+          <Property Type="String" Name="ResetCode" Nullable="true" MaxLength="50" />
+          <Property Type="DateTime" Name="ResetCodeSentAt" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="ResetCodeExpiry" Nullable="true" Precision="23" />
+          <Property Type="Int32" Name="AddressId" Nullable="true" />
+          <Property Type="String" Name="ProfileAssetUrl" Nullable="true" MaxLength="500" />
+        </ComplexType>
+        <EntityType Name="Restaurant">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Brief" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
+          <Property Name="Detail" Type="String" MaxLength="2500" FixedLength="false" Unicode="true" />
+          <Property Name="AddressId" Type="Int32" />
+          <Property Name="ContactNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="EmailAddress" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="ServiceProviderStatus" Type="Int32" />
+          <Property Name="AssetUrl" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="PartnerUserId" Type="Int32" />
+          <Property Name="ReviewedBy" Type="Int32" />
+          <Property Name="ReviewDate" Type="DateTime" Precision="3" />
+          <Property Name="DateAdded" Type="DateTime" Precision="3" />
+          <Property Name="LastUpdated" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="RestaurantMenu">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ServiceStatus" Type="Int32" />
+          <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Brief" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
+          <Property Name="Detail" Type="String" MaxLength="2500" FixedLength="false" Unicode="true" />
+          <Property Name="UnitPrice" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="IsTaxable" Type="Boolean" />
+          <Property Name="TaxRate" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="AssetUrl" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="OwnerType" Type="Int32" />
+          <Property Name="OwnerId" Type="Int32" />
+          <Property Name="DateAdded" Type="DateTime" Precision="3" />
+          <Property Name="LastUpdated" Type="DateTime" Precision="3" />
+        </EntityType>
+        <ComplexType Name="GetMenuItem_Result">
+          <Property Type="String" Name="Name" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="Detail" Nullable="true" MaxLength="2500" />
+          <Property Type="String" Name="Brief" Nullable="true" MaxLength="400" />
+          <Property Type="Int32" Name="Id" Nullable="false" />
+          <Property Type="Decimal" Name="UnitPrice" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="TaxRate" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Boolean" Name="IsTaxable" Nullable="true" />
+          <Property Type="Int32" Name="r_id" Nullable="false" />
+          <Property Type="String" Name="r_name" Nullable="true" MaxLength="255" />
+          <Property Type="Int32" Name="ra_id" Nullable="false" />
+          <Property Type="String" Name="City" Nullable="true" MaxLength="255" />
+          <Property Type="Int32" Name="RegionId" Nullable="true" />
+          <Property Type="String" Name="Postcode" Nullable="true" MaxLength="50" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="CraveatsDataStoreModelStoreContainer" CdmEntityContainer="EFDMConnSettings">
+          <EntitySetMapping Name="Address">
+            <EntityTypeMapping TypeName="Craveats.DataStoreModel.Address">
+              <MappingFragment StoreEntitySet="Address">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Line1" ColumnName="Line1" />
+                <ScalarProperty Name="Line2" ColumnName="Line2" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="RegionId" ColumnName="RegionId" />
+                <ScalarProperty Name="Postcode" ColumnName="Postcode" />
+                <ScalarProperty Name="CountryId" ColumnName="CountryId" />
+                <ScalarProperty Name="OwnerType" ColumnName="OwnerType" />
+                <ScalarProperty Name="OwnerId" ColumnName="OwnerId" />
+                <ScalarProperty Name="AddressStatus" ColumnName="AddressStatus" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Category">
+            <EntityTypeMapping TypeName="Craveats.DataStoreModel.Category">
+              <MappingFragment StoreEntitySet="Category">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="CategoryStatus" ColumnName="CategoryStatus" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CategoryRelation">
+            <EntityTypeMapping TypeName="Craveats.DataStoreModel.CategoryRelation">
+              <MappingFragment StoreEntitySet="CategoryRelation">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+                <ScalarProperty Name="OwnerType" ColumnName="OwnerType" />
+                <ScalarProperty Name="OwnerId" ColumnName="OwnerId" />
+                <ScalarProperty Name="CategoryRelationStatus" ColumnName="CategoryRelationStatus" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Comment">
+            <EntityTypeMapping TypeName="Craveats.DataStoreModel.Comment">
+              <MappingFragment StoreEntitySet="Comment">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="OwnerType" ColumnName="OwnerType" />
+                <ScalarProperty Name="OwnerId" ColumnName="OwnerId" />
+                <ScalarProperty Name="Detail" ColumnName="Detail" />
+                <ScalarProperty Name="TargetType" ColumnName="TargetType" />
+                <ScalarProperty Name="TargetId" ColumnName="TargetId" />
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+                <ScalarProperty Name="CommentStatus" ColumnName="CommentStatus" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Country">
+            <EntityTypeMapping TypeName="Craveats.DataStoreModel.Country">
+              <MappingFragment StoreEntitySet="Country">
+                <ScalarProperty Name="ISO2" ColumnName="ISO2" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ISO3" ColumnName="ISO3" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Enquiry">
+            <EntityTypeMapping TypeName="Craveats.DataStoreModel.Enquiry">
+              <MappingFragment StoreEntitySet="Enquiry">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+                <ScalarProperty Name="EmailAddress" ColumnName="EmailAddress" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="ReviewedBy" ColumnName="ReviewedBy" />
+                <ScalarProperty Name="ReviewDate" ColumnName="ReviewDate" />
+                <ScalarProperty Name="EnquiryStatus" ColumnName="EnquiryStatus" />
+                <ScalarProperty Name="Notes" ColumnName="Notes" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Order">
+            <EntityTypeMapping TypeName="Craveats.DataStoreModel.Order">
+              <MappingFragment StoreEntitySet="Order">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="SessionId" ColumnName="SessionId" />
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+                <ScalarProperty Name="LastUpdated" ColumnName="LastUpdated" />
+                <ScalarProperty Name="OrderStatus" ColumnName="OrderStatus" />
+                <ScalarProperty Name="EstimatedDeliveryDate" ColumnName="EstimatedDeliveryDate" />
+                <ScalarProperty Name="DeliveryAddressId" ColumnName="DeliveryAddressId" />
+                <ScalarProperty Name="OrderTotal" ColumnName="OrderTotal" />
+                <ScalarProperty Name="DiscountTotal" ColumnName="DiscountTotal" />
+                <ScalarProperty Name="TaxTotal" ColumnName="TaxTotal" />
+                <ScalarProperty Name="RevisedOrderId" ColumnName="RevisedOrderId" />
+                <ScalarProperty Name="DateCompleted" ColumnName="DateCompleted" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OrderDetail">
+            <EntityTypeMapping TypeName="Craveats.DataStoreModel.OrderDetail">
+              <MappingFragment StoreEntitySet="OrderDetail">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+                <ScalarProperty Name="ServiceId" ColumnName="ServiceId" />
+                <ScalarProperty Name="ServiceOwnerType" ColumnName="ServiceOwnerType" />
+                <ScalarProperty Name="ServiceOwnerId" ColumnName="ServiceOwnerId" />
+                <ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
+                <ScalarProperty Name="IsTaxable" ColumnName="IsTaxable" />
+                <ScalarProperty Name="TaxRate" ColumnName="TaxRate" />
+                <ScalarProperty Name="CommentId" ColumnName="CommentId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OrderFreight">
+            <EntityTypeMapping TypeName="Craveats.DataStoreModel.OrderFreight">
+              <MappingFragment StoreEntitySet="OrderFreight">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+                <ScalarProperty Name="OrderDetailId" ColumnName="OrderDetailId" />
+                <ScalarProperty Name="ServiceId" ColumnName="ServiceId" />
+                <ScalarProperty Name="ServiceProviderId" ColumnName="ServiceProviderId" />
+                <ScalarProperty Name="VendorId" ColumnName="VendorId" />
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+                <ScalarProperty Name="DateDispatched" ColumnName="DateDispatched" />
+                <ScalarProperty Name="DateDelivered" ColumnName="DateDelivered" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OrderPayment">
+            <EntityTypeMapping TypeName="Craveats.DataStoreModel.OrderPayment">
+              <MappingFragment StoreEntitySet="OrderPayment">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="PaymentType" ColumnName="PaymentType" />
+                <ScalarProperty Name="TotalAmount" ColumnName="TotalAmount" />
+                <ScalarProperty Name="CreditCardType" ColumnName="CreditCardType" />
+                <ScalarProperty Name="CreditCardNumber" ColumnName="CreditCardNumber" />
+                <ScalarProperty Name="CreditCardExpiry" ColumnName="CreditCardExpiry" />
+                <ScalarProperty Name="NameOnCard" ColumnName="NameOnCard" />
+                <ScalarProperty Name="DateProcessed" ColumnName="DateProcessed" />
+                <ScalarProperty Name="GatewayResponseCode" ColumnName="GatewayResponseCode" />
+                <ScalarProperty Name="GatewayResponseVerbose" ColumnName="GatewayResponseVerbose" />
+                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Region">
+            <EntityTypeMapping TypeName="Craveats.DataStoreModel.Region">
+              <MappingFragment StoreEntitySet="Region">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="RegionName" ColumnName="RegionName" />
+                <ScalarProperty Name="CountryISO2" ColumnName="CountryISO2" />
+                <ScalarProperty Name="RegionAlias" ColumnName="RegionAlias" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Search">
+            <EntityTypeMapping TypeName="Craveats.DataStoreModel.Search">
+              <MappingFragment StoreEntitySet="Search">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="SearchTerm" ColumnName="SearchTerm" />
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SessionTracking">
+            <EntityTypeMapping TypeName="Craveats.DataStoreModel.SessionTracking">
+              <MappingFragment StoreEntitySet="SessionTracking">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="SessionID" ColumnName="SessionID" />
+                <ScalarProperty Name="IPAddress" ColumnName="IPAddress" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="LoggedInAt" ColumnName="LoggedInAt" />
+                <ScalarProperty Name="LoggedOutAt" ColumnName="LoggedOutAt" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Settings">
+            <EntityTypeMapping TypeName="Craveats.DataStoreModel.Settings">
+              <MappingFragment StoreEntitySet="Settings">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="SMTPHost" ColumnName="SMTPHost" />
+                <ScalarProperty Name="SMTPRequiresSSL" ColumnName="SMTPRequiresSSL" />
+                <ScalarProperty Name="SMTPRequiresTLS" ColumnName="SMTPRequiresTLS" />
+                <ScalarProperty Name="SMTPRequiresAuth" ColumnName="SMTPRequiresAuth" />
+                <ScalarProperty Name="SMTPSSLPort" ColumnName="SMTPSSLPort" />
+                <ScalarProperty Name="SMTPTLSPort" ColumnName="SMTPTLSPort" />
+                <ScalarProperty Name="SMTPUserName" ColumnName="SMTPUserName" />
+                <ScalarProperty Name="SMTPPassword" ColumnName="SMTPPassword" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="User">
+            <EntityTypeMapping TypeName="Craveats.DataStoreModel.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Salutation" ColumnName="Salutation" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="Surname" ColumnName="Surname" />
+                <ScalarProperty Name="EmailAddress" ColumnName="EmailAddress" />
+                <ScalarProperty Name="ContactNumber" ColumnName="ContactNumber" />
+                <ScalarProperty Name="UserStatus" ColumnName="UserStatus" />
+                <ScalarProperty Name="UserTypeFlag" ColumnName="UserTypeFlag" />
+                <ScalarProperty Name="LastUpdated" ColumnName="LastUpdated" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+                <ScalarProperty Name="ResetCode" ColumnName="ResetCode" />
+                <ScalarProperty Name="ResetCodeSentAt" ColumnName="ResetCodeSentAt" />
+                <ScalarProperty Name="ResetCodeExpiry" ColumnName="ResetCodeExpiry" />
+                <ScalarProperty Name="AddressId" ColumnName="AddressId" />
+                <ScalarProperty Name="ProfileAssetUrl" ColumnName="ProfileAssetUrl" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Vendor">
+            <EntityTypeMapping TypeName="Craveats.DataStoreModel.Vendor">
+              <MappingFragment StoreEntitySet="Vendor">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="VendorType" ColumnName="VendorType" />
+                <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
+                <ScalarProperty Name="ContactName" ColumnName="ContactName" />
+                <ScalarProperty Name="ContactPosition" ColumnName="ContactPosition" />
+                <ScalarProperty Name="AddressId" ColumnName="AddressId" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="FaxNumber" ColumnName="FaxNumber" />
+                <ScalarProperty Name="EmailAddress" ColumnName="EmailAddress" />
+                <ScalarProperty Name="WebUrl" ColumnName="WebUrl" />
+                <ScalarProperty Name="VendorStatus" ColumnName="VendorStatus" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="DoesRegistrantExist" FunctionName="Craveats.DataStoreModel.Store.DoesRegistrantExist" />
+          <FunctionImportMapping FunctionImportName="GetUserByEmail" FunctionName="Craveats.DataStoreModel.Store.GetUserByEmail">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="Craveats.DataStoreModel.GetUserByEmail_Result">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Salutation" ColumnName="Salutation" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="Surname" ColumnName="Surname" />
+                <ScalarProperty Name="EmailAddress" ColumnName="EmailAddress" />
+                <ScalarProperty Name="ContactNumber" ColumnName="ContactNumber" />
+                <ScalarProperty Name="UserStatus" ColumnName="UserStatus" />
+                <ScalarProperty Name="UserTypeFlag" ColumnName="UserTypeFlag" />
+                <ScalarProperty Name="LastUpdated" ColumnName="LastUpdated" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+                <ScalarProperty Name="ResetCode" ColumnName="ResetCode" />
+                <ScalarProperty Name="ResetCodeSentAt" ColumnName="ResetCodeSentAt" />
+                <ScalarProperty Name="ResetCodeExpiry" ColumnName="ResetCodeExpiry" />
+                <ScalarProperty Name="AddressId" ColumnName="AddressId" />
+                <ScalarProperty Name="ProfileAssetUrl" ColumnName="ProfileAssetUrl" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="Restaurant">
+            <EntityTypeMapping TypeName="Craveats.DataStoreModel.Restaurant">
+              <MappingFragment StoreEntitySet="Restaurant">
+                <ScalarProperty Name="LastUpdated" ColumnName="LastUpdated" />
+                <ScalarProperty Name="DateAdded" ColumnName="DateAdded" />
+                <ScalarProperty Name="ReviewDate" ColumnName="ReviewDate" />
+                <ScalarProperty Name="ReviewedBy" ColumnName="ReviewedBy" />
+                <ScalarProperty Name="PartnerUserId" ColumnName="PartnerUserId" />
+                <ScalarProperty Name="AssetUrl" ColumnName="AssetUrl" />
+                <ScalarProperty Name="ServiceProviderStatus" ColumnName="ServiceProviderStatus" />
+                <ScalarProperty Name="EmailAddress" ColumnName="EmailAddress" />
+                <ScalarProperty Name="ContactNumber" ColumnName="ContactNumber" />
+                <ScalarProperty Name="AddressId" ColumnName="AddressId" />
+                <ScalarProperty Name="Detail" ColumnName="Detail" />
+                <ScalarProperty Name="Brief" ColumnName="Brief" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RestaurantMenu">
+            <EntityTypeMapping TypeName="Craveats.DataStoreModel.RestaurantMenu">
+              <MappingFragment StoreEntitySet="RestaurantMenu">
+                <ScalarProperty Name="LastUpdated" ColumnName="LastUpdated" />
+                <ScalarProperty Name="DateAdded" ColumnName="DateAdded" />
+                <ScalarProperty Name="OwnerId" ColumnName="OwnerId" />
+                <ScalarProperty Name="OwnerType" ColumnName="OwnerType" />
+                <ScalarProperty Name="AssetUrl" ColumnName="AssetUrl" />
+                <ScalarProperty Name="TaxRate" ColumnName="TaxRate" />
+                <ScalarProperty Name="IsTaxable" ColumnName="IsTaxable" />
+                <ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
+                <ScalarProperty Name="Detail" ColumnName="Detail" />
+                <ScalarProperty Name="Brief" ColumnName="Brief" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ServiceStatus" ColumnName="ServiceStatus" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="GetMenuItem" FunctionName="Craveats.DataStoreModel.Store.GetMenuItem">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="Craveats.DataStoreModel.GetMenuItem_Result">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Detail" ColumnName="Detail" />
+                <ScalarProperty Name="Brief" ColumnName="Brief" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
+                <ScalarProperty Name="TaxRate" ColumnName="TaxRate" />
+                <ScalarProperty Name="IsTaxable" ColumnName="IsTaxable" />
+                <ScalarProperty Name="r_id" ColumnName="r_id" />
+                <ScalarProperty Name="r_name" ColumnName="r_name" />
+                <ScalarProperty Name="ra_id" ColumnName="ra_id" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="RegionId" ColumnName="RegionId" />
+                <ScalarProperty Name="Postcode" ColumnName="Postcode" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

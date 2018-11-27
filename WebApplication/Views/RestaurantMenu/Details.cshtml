@@ -1,0 +1,56 @@
+﻿@model WebApplication.DAL.RestaurantMenu
+@using Generic.Obfuscation.TripleDES;
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Restaurant Menu</h4>
+    <hr />
+    
+    <input type="hidden" name="ownerType" value="@ViewBag.ownerType" />
+    <input type="hidden" name="ownerId" value="@ViewBag.ownerId" />
+
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Brief)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Brief)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Detail)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Detail)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UnitPrice)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UnitPrice)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = DataSecurityTripleDES.GetEncryptedText(Model.Id), ownerType = ViewBag.ownerType, ownerId = ViewBag.ownerId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

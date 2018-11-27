@@ -1,0 +1,75 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+@using WebApplication.Models;
+<h2>Checkout</h2>
+
+
+<table class="table">
+    <tr>
+        <th>
+            Name
+        </th>
+        <th>
+            Detail
+        </th>
+        <th>
+            Brief
+        </th>
+        <th>
+            Price
+        </th>
+        <th>
+            Quantity
+        </th>
+        <th>
+            Total Item Price
+        </th>
+        <th>
+            Remove Item
+        </th>
+        <th></th>
+    </tr>
+    @foreach (Item item in (List<Item>)Session["cart"])
+    {
+    <tr>
+        <td>
+            @item.Menu.Id
+        </td>
+        <td>
+            @item.Menu.Detail
+        </td>
+        <td>
+            @item.Menu.Brief
+        </td>
+        <td>
+            @item.Menu.UnitPrice
+        </td>
+        <td>
+            1
+        </td>
+        <td>
+            @((item.Menu.UnitPrice * 1) * (decimal)1.13)
+        </td>
+        <td>
+            [ @Html.ActionLink("Remove Item", "Remove", "Cart", new { id = item.Menu.Id }) ]
+        </td>
+    </tr>
+    }
+    <tr>
+        <td align="justify" colspan="6">Final Total</td>
+        <td>
+            @{ 
+                List<Item> cart = (List<Item>)Session["cart"];
+                var finTotal = cart.Sum(item => item.Menu.UnitPrice * 1);
+            }
+            @finTotal
+        </td>
+    </tr>
+</table> <br />
+
+<p>
+    @Html.ActionLink("Continue Shopping..", "Index")
+</p>
+
+
