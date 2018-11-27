@@ -1,16 +1,20 @@
-﻿using System;
+﻿using Generic.Obfuscation.TripleDES;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using WebApplication.DAL;
 using WebApplication.Models;
+using WebApplication.Models.ViewModel;
 
 namespace WebApplication.Controllers
 {
+    [Authorize, Tls]
     public class CartController : Controller
     {
         private CraveatsDbContext db = new CraveatsDbContext();
+
         MenuModel menuModel = new MenuModel();
 
         // GET: Cart
@@ -19,48 +23,35 @@ namespace WebApplication.Controllers
             return View();
         }
 
-        public ActionResult AddToCart(int id)
+        public ActionResult AddToCart(string id)
         {
-            if (Session["cart"] == null)
+            RestaurantMenuCartDTO thisMenuDTO = EntityDTOHelper.GetEntityDTO<RestaurantMenu, RestaurantMenuCartDTO>(menuModel.find(int.Parse(DataSecurityTripleDES.GetPlainText(id))));
+            if (thisMenuDTO != null)
             {
-                List<Item> cart = new List<Item>();
-                cart.Add(new Item { Menu = menuModel.find(id)});
-                Session["cart"] = cart;
-            }
-            else
-            {
-                List<Item> cart = (List<Item>)Session["cart"];
-                int index = isExist(id);
+                thisMenuDTO.Quantity = 1;
 
-                if (index != -1)
-                {
-                    
-                }
-                else
-                {
-                    cart.Add(new Item { Menu = menuModel.find(id) });
-                }
-                Session["cart"] = cart;
+                CraveatsCart craveatsCart = (Session["cart"] == null) ? new CraveatsCart() : (Session["cart"] as CraveatsCart);
+                craveatsCart.AddToCart(thisMenuDTO);
+
+                Session["cart"] = craveatsCart;
             }
+
             return RedirectToAction("Index");
         }
 
-        public ActionResult Remove(int id)
+        public ActionResult Remove(string id)
         {
-            List<Item> cart = (List<Item>)Session["cart"];
-            int index = isExist(id);
-            cart.RemoveAt(index);
-            Session["cart"] = cart;
+            RestaurantMenuCartDTO thisMenuDTO = EntityDTOHelper.GetEntityDTO<RestaurantMenu, RestaurantMenuCartDTO>(menuModel.find(int.Parse(DataSecurityTripleDES.GetPlainText(id))));
+            if (thisMenuDTO != null)
+            {
+                CraveatsCart craveatsCart = (Session["cart"] == null) ? new CraveatsCart() : (Session["cart"] as CraveatsCart);
+                craveatsCart.RemoveItem(id);
+
+                Session["cart"] = craveatsCart;
+            }
+
             return RedirectToAction("Index");
         }
 
-        private int isExist(int id)
-        {
-            List<Item> cart = (List<Item>)Session["cart"];
-            for (int i = 0; i < cart.Count; i++)
-                if (cart[i].Menu.Id.Equals(id))
-                    return i;
-            return -1;
-        }
     }
 }

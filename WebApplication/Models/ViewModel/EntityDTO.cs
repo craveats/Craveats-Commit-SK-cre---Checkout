@@ -243,6 +243,18 @@ namespace WebApplication.Models.ViewModel
     }
 
     [Serializable]
+    public class RestaurantMenuCartDTO
+    {
+        public string Id { get; set; }
+        public string Name { get; set; }
+        public string Detail { get; set; }
+        public Nullable<decimal> UnitPrice { get; set; }
+        public Nullable<bool> IsTaxable { get; set; }
+        public Nullable<decimal> TaxRate { get; set; }
+        public int Quantity { get; set; }
+    }
+
+    [Serializable]
     public class MixedBagDTO
     {
         public int Id { get; set; }

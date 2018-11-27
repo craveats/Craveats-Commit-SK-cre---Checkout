@@ -1,75 +1,97 @@
 ﻿@{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Craveats Cart";
 }
+
+@using WebApplication.Common;
 @using WebApplication.Models;
+@using WebApplication.Models.ViewModel
+@using Generic.Obfuscation.TripleDES;
+
 <h2>Checkout</h2>
 
+<h4>Your cart detail</h4>
+<div class="row">
+    <div class="form-group" style="">
+        <div class="col-sm-3">Name</div>
+        <div class="col-sm-4">Detail</div>
+        <div class="col-sm-1">Price</div>
+        <div class="col-sm-1">Quantity</div>
+        <div class="col-sm-2 text-right">Total price</div>
+        <div class="col-sm-1">Remove</div>
+    </div>
+</div>
+      <hr />
+        @if (Session["cart"] == null)
+        {
+<div class="row">
+    <div class="form-group">
+        <div class="col-sm-12 text-center" style="padding-top:10px;">
+            You do not have any items in your cart.
+        </div>
+    </div>
+</div>
+        }
+        else
+        {
+            var sessionCart = ((CraveatsCart)Session["cart"]);
 
-<table class="table">
-    <tr>
-        <th>
-            Name
-        </th>
-        <th>
-            Detail
-        </th>
-        <th>
-            Brief
-        </th>
-        <th>
-            Price
-        </th>
-        <th>
-            Quantity
-        </th>
-        <th>
-            Total Item Price
-        </th>
-        <th>
-            Remove Item
-        </th>
-        <th></th>
-    </tr>
-    @foreach (Item item in (List<Item>)Session["cart"])
-    {
-    <tr>
-        <td>
-            @item.Menu.Id
-        </td>
-        <td>
-            @item.Menu.Detail
-        </td>
-        <td>
-            @item.Menu.Brief
-        </td>
-        <td>
-            @item.Menu.UnitPrice
-        </td>
-        <td>
-            1
-        </td>
-        <td>
-            @((item.Menu.UnitPrice * 1) * (decimal)1.13)
-        </td>
-        <td>
-            [ @Html.ActionLink("Remove Item", "Remove", "Cart", new { id = item.Menu.Id }) ]
-        </td>
-    </tr>
-    }
-    <tr>
-        <td align="justify" colspan="6">Final Total</td>
-        <td>
-            @{ 
-                List<Item> cart = (List<Item>)Session["cart"];
-                var finTotal = cart.Sum(item => item.Menu.UnitPrice * 1);
+            foreach (RestaurantMenuCartDTO item in sessionCart.Items)
+            {
+                <div class="row">
+                  <div class="form-group">
+                      <div class="col-sm-3">
+                          @item.Name
+                      </div>
+                      <div class="col-sm-4">
+                          @item.Detail
+                      </div>
+                      <div class="col-sm-1 text-right">
+                          @CommonUtility.DoFormat(item.UnitPrice)
+                      </div>
+                      <div class="col-sm-1 text-right">
+                          @item.Quantity
+                      </div>
+                      <div class="col-sm-2 text-right">
+                          @CommonUtility.DoFormat((((item.UnitPrice ?? 0) * item.Quantity) + ((item.IsTaxable ?? false) ? ((item.UnitPrice * item.Quantity) * ((item.TaxRate ?? 0) / 100)) : 0m)))
+                      </div>
+                      <div class="col-sm-1">
+                          [ @Html.ActionLink("X", "Remove", "Cart", new { id = item.Id }, new { title = "Remove item" }) ]
+                      </div>
+                  </div>
+                </div>
             }
-            @finTotal
-        </td>
-    </tr>
-</table> <br />
+            <hr/>
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-sm-8 text-capitalize text-right">Total</div>
+                        <div class="col-sm-3 text-right">
+                            @CommonUtility.DoFormat(sessionCart.CartTotalBeforeTax)
+                        </div>
+                        <div class="col-sm-1">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-8 text-capitalize text-right">Tax Total</div>
+                        <div class="col-sm-3 text-right">
+                            @CommonUtility.DoFormat(sessionCart.CartTotalTax)
+                        </div>
+                        <div class="col-sm-1">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-8 text-capitalize text-right">Grand Total</div>
+                        <div class="col-sm-3 text-right">
+                            @CommonUtility.DoFormat(sessionCart.CartTotalBeforeTax + sessionCart.CartTotalTax)
+                        </div>
+                        <div class="col-sm-1">
+                        </div>
+                    </div>
+                </div>
+        }
 
-<p>
-    @Html.ActionLink("Continue Shopping..", "Index")
-</p>
+
+    <p>
+        @Html.ActionLink("Continue Shopping..", "Index")
+    </p>
 
 

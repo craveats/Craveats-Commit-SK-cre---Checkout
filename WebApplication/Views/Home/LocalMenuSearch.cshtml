@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<WebApplication.DAL.GetMenuItem_Result>
 @using Generic.Obfuscation.TripleDES
 @{
-    ViewBag.Title = "LocalMenuSearch";
+    ViewBag.Title = "Local Menu Search";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -48,7 +48,7 @@
                 @Html.DisplayFor(modelItem => item.UnitPrice)
             </td>
             <td>
-                [ <a href="@Url.Action("AddToCart", "Cart", new { id = item.Id })">Add To Cart</a> ]
+                [ @Html.ActionLink("Add To Cart", "AddToCart", "Cart", new { id = DataSecurityTripleDES.GetEncryptedText(item.Id) }, null) ]
             </td>
         </tr>
     }

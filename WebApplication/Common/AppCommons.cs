@@ -120,5 +120,22 @@
                                 .Description == description).SingleOrDefault();
             return field == null ? default(T) : (T)field.Field.GetRawConstantValue();
         }
+
+        //src :: https://stackoverflow.com/questions/6951335/using-string-format-to-show-decimal-up-to-2-places-or-simple-integer
+        public static string DoFormat(decimal? myNumber)
+        {
+            if (!myNumber.HasValue) return "-";
+
+            var s = string.Format("{0:0.00}", myNumber);
+
+            if (s.EndsWith("00"))
+            {
+                return ((int)myNumber).ToString();
+            }
+            else
+            {
+                return s;
+            }
+        }
     }
 }
