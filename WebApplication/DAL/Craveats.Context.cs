@@ -15,7 +15,6 @@ namespace WebApplication.DAL
     using System.Data.Entity.Core.Objects;
     using System.Linq;
     
-    [Serializable]
     public partial class CraveatsDbContext : DbContext
     {
         public CraveatsDbContext()
@@ -90,7 +89,5 @@ namespace WebApplication.DAL
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetMenuItem_Result>("GetMenuItem", searchtermParameter, orderbyParameter);
         }
-
-        public System.Data.Entity.DbSet<WebApplication.DAL.GetMenuItem_Result> GetMenuItem_Result { get; set; }
     }
 }

@@ -502,7 +502,7 @@ namespace WebApplication.Controllers
 
                     if (addressOwner != null && !addressOwner.AddressId.HasValue)
                     {
-                        addressDTO.OwnerType = DataSecurityTripleDES.GetEncryptedText((int)Common.OwnerTypeEnum.User);
+                        addressDTO.OwnerType = (int)Common.OwnerTypeEnum.User;
                         addressDTO.OwnerId = authenticatedUserInfo.UserId;
 
                         using (DAL.CraveatsDbContext c = new DAL.CraveatsDbContext())
@@ -533,7 +533,7 @@ namespace WebApplication.Controllers
                         }
                     }
                     else if (ownerType > -1 && ownerId > 0) {
-                        addressDTO.OwnerType = DataSecurityTripleDES.GetEncryptedText(ownerType);
+                        addressDTO.OwnerType = ownerType;
                         addressDTO.OwnerId = model.OwnerId;
 
                         using (DAL.CraveatsDbContext c = new DAL.CraveatsDbContext())

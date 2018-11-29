@@ -5,7 +5,25 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+
+
+<div class="row">
+    <div class="form-group">
+        <div class="col-xs-6">Searching businesses near you</div>
+        <div id="ip" class="col-xs-2 small">loading...</div>
+        <div id="city" class="col-xs-2 small">loading...</div>
+        <div id="region" class="col-xs-2 small">loading...</div>
+        @*<div id="location" class="col-xs-2 samll">loading...</div>*@
+    </div>
+</div>
+<br />
+<br />
+
+
 <h2>Local Menu Search</h2>
+
+
+
 
 @using (Html.BeginForm("LocalMenuSearch", "Home", FormMethod.Get))
 {
@@ -54,3 +72,13 @@
     }
 
 </table>
+
+<script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script type="text/javascript">
+    $.get('https://ipinfo.io', function (response) {
+        $('#ip').html('IP: ' + response.ip + ' |');
+        $('#city').html('City: ' + response.city + ' |');
+        $('#region').html('Region: ' + response.region + '');
+        //$('#location').html('Location: ' + response.loc + '');
+    }, 'jsonp');
+</script>

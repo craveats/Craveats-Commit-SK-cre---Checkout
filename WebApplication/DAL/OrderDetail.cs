@@ -23,5 +23,8 @@ namespace WebApplication.DAL
         public Nullable<bool> IsTaxable { get; set; }
         public Nullable<decimal> TaxRate { get; set; }
         public Nullable<int> CommentId { get; set; }
+        public string Name { get; set; }
+        public string Detail { get; set; }
+        public Nullable<int> Quantity { get; set; }
     }
 }

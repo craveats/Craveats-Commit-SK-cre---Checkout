@@ -36,6 +36,15 @@
         Deleted = CommonStatusEnum.Deleted,
     }
 
+    public enum OrderStatusEnum
+    {
+        Cancelled = 0,
+        Paid = 1,
+        Pending = 2,
+        Refunded = 3,
+
+    }
+
     public enum OwnerTypeEnum
     {
         Unknown = 0,

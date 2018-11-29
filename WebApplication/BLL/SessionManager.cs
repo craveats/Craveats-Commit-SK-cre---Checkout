@@ -104,5 +104,28 @@ namespace WebApplication
                 return authenticatedUserInfo?.EmailAddress;
             }
         }
+
+        public static string GetContextSessionID()
+        {
+            object xLock = new object();
+            int? UserId = (int?)int.Parse(DataSecurityTripleDES.GetPlainText(GetContextSessionLoggedUserID()));
+            lock (xLock)
+            {
+                string SessionID = HttpContext.Current.Session.SessionID,
+                IPAddress = (HttpContext.Current.Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? string.Empty).Trim() == string.Empty
+                ? HttpContext.Current.Request.ServerVariables["REMOTE_ADDR"]?.Trim()
+                : HttpContext.Current.Request.ServerVariables["HTTP_X_FORWARDED_FOR"]?.Trim();
+
+                SessionTracking result = null;
+
+
+                using (CraveatsDbContext craveatsDbContext = new CraveatsDbContext())
+                {
+                    result = craveatsDbContext.SessionTracking.FirstOrDefault(u => u.IPAddress == IPAddress && u.SessionID == SessionID && u.UserId == UserId);
+                }
+
+                return DataSecurityTripleDES.GetEncryptedText(result?.Id??0);
+            }
+        }
     }
 }

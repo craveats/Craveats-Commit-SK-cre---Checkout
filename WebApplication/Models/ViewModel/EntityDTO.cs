@@ -215,7 +215,7 @@ namespace WebApplication.Models.ViewModel
         public string RegionId { get; set; }
         public string Postcode { get; set; }
         public string CountryId { get; set; }
-        public string OwnerType { get; set; }
+        public int OwnerType { get; set; }
         public string OwnerId { get; set; }
         public Nullable<int> AddressStatus { get; set; }
 
@@ -223,6 +223,20 @@ namespace WebApplication.Models.ViewModel
         public string RegionName { get; set; }
 
         public string CountryName { get; set; }
+
+        public string GetAddressString(bool isHtml = false) {
+            return string.Join(
+                isHtml ? "<br/>" : Environment.NewLine,
+                new string[] {
+                    string.Join(
+                        isHtml ? "<br/>" : Environment.NewLine,
+                        new string[] { Line1, Line2 }),
+                    City,
+                    string.Join(
+                        " ",
+                        new string[] { RegionAlias, Postcode})
+                });
+        }
     }
 
     [Serializable]
@@ -248,29 +262,56 @@ namespace WebApplication.Models.ViewModel
         public string Id { get; set; }
         public string Name { get; set; }
         public string Detail { get; set; }
+
         public Nullable<decimal> UnitPrice { get; set; }
         public Nullable<bool> IsTaxable { get; set; }
         public Nullable<decimal> TaxRate { get; set; }
+
         public int Quantity { get; set; }
+
+        public string ServiceOwnerName { get; set; }
+        public string ServiceOwnerId { get; set; }
+        public string ServiceOwnerType { get; set; }
+
+        public string ServiceOwnerAddressDetail { get; set; }
     }
 
     [Serializable]
-    public class MixedBagDTO
+    public class OrderConfirmationDTO
     {
-        public int Id { get; set; }
+        public string Id { get; set; }
+        public string StatusMessage { get; set; }
+    }
+
+    [Serializable]
+    public class OrderHistoryDTO
+    {
+        public string Id { get; set; }
+
+        public DateTime? DateCreated { get; set; }
+        public decimal? OrderTotal { get; set; }
+        public decimal? TaxTotal { get; set; }
+    }
+
+    [Serializable]
+    public class OrderDetailHistoryDTO
+    {
+        public string Id { get; set; }
+
         public string Name { get; set; }
-        public string Brief { get; set; }
         public string Detail { get; set; }
-        public Nullable<decimal> UnitPrice { get; set; }
-        public Nullable<bool> IsTaxable { get; set; }
-        public Nullable<decimal> TaxRate { get; set; }
 
-        public int r_Id { get; set; }
-        public string r_Name { get; set; }
+        public int? Quantity { get; set; }
+        public decimal? UnitPrice { get; set; }
+        public decimal? TaxRate { get; set; }
 
-        public int ra_Id { get; set; }
-        public string City { get; set; }
-        public Nullable<int> RegionId { get; set; }
-        public string Postcode { get; set; }
+        public string OrderId { get; set; }
+    }
+
+
+    public class OrderOrderDetailIndexData
+    {
+        public List<OrderHistoryDTO> Orders { get; set; }
+        public List<OrderDetailHistoryDTO> OrderDetails { get; set; }
     }
 }

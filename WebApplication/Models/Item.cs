@@ -22,8 +22,15 @@ namespace WebApplication.Models
     [Serializable]
     public class CraveatsCart
     {
-        public CraveatsCart() {
-            
+        private string _ownerId = null;
+        public CraveatsCart(string ownerId) {
+            _ownerId = ownerId;
+        }
+
+        public string OwnerId {
+            get {
+                return _ownerId;
+            }
         }
 
         public int ItemCount { get {

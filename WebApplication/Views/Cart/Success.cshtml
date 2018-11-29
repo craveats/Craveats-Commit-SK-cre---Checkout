@@ -1,13 +1,30 @@
-﻿
+﻿@model WebApplication.Models.ViewModel.OrderConfirmationDTO
 @{
     ViewBag.Title = "Success";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+@if (Model != null)
+{
+    if (Model.StatusMessage == "success")
+    {
+        <h2>Success</h2>
 
-<h2>Success</h2>
+        <h4>Your order @Model.Id has been successfully registered with us. Thank you! </h4>
+    }
+    else
+    {
+        <h2>Opps!</h2>
 
-<h4>Your order was successfully placed. Thank you! </h4>
+        <h4>We have following issue(s) with your order @Model.Id </h4>
+        <p> @Model.StatusMessage </p>
+    }
+}
+else
+{
+    <h2> Thank you for visiting us!</h2>
+    <h4> You do not have any order to confirm with us for this session.</h4>
+}
 
 @Html.ActionLink("Continue shopping...", "LocalMenuSearch", "Home")
 
