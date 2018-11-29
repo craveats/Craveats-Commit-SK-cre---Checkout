@@ -108,11 +108,6 @@
 
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
             
-            <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Confirm Order" class="btn btn-primary" />
-                </div>
-            </div>
         }
     </div>
 </div>
@@ -120,7 +115,7 @@
 
 
 <p>
-    @Html.ActionLink("Continue Shopping..", "Index")
+    @Html.ActionLink("Continue Shopping..", "LocalMenuSearch", "Home")
 </p>
 
 
