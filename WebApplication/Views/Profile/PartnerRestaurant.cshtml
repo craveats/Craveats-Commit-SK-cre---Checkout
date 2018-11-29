@@ -69,7 +69,7 @@
         <dd>
             <div class="row">
                 <div class="col-md-6">
-                    @if (Model.Addresses.Any())
+                    @if (Model.Addresses != null && Model.Addresses.Any())
                     {
                         foreach (var item in Model.Addresses)
                         {

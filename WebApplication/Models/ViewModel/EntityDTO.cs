@@ -215,7 +215,7 @@ namespace WebApplication.Models.ViewModel
         public string RegionId { get; set; }
         public string Postcode { get; set; }
         public string CountryId { get; set; }
-        public int OwnerType { get; set; }
+        public int? OwnerType { get; set; }
         public string OwnerId { get; set; }
         public Nullable<int> AddressStatus { get; set; }
 

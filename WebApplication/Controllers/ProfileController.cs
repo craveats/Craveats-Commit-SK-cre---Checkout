@@ -136,25 +136,27 @@ namespace WebApplication.Controllers
                         };
                     }
 
-
-                    DataProvider dataProvider = new DataProvider();
-
-                    DAL.Address anAddress = dataProvider.FindAddressById(
-                        int.Parse(DataSecurityTripleDES.GetPlainText(userDTO.AddressId)));
-
-                    AddressViewModel addressViewModel = EntityDTOHelper.GetEntityDTO<DAL.Address, AddressViewModel>(anAddress);
-
-                    if (anAddress != null)
+                    if ((userDTO.AddressId ?? "").Length > 0)
                     {
-                        DAL.Region region = dataProvider.FindRegionById(anAddress.RegionId ?? 0);
+                        DataProvider dataProvider = new DataProvider();
 
-                        if (region != null)
+                        DAL.Address anAddress = dataProvider.FindAddressById(
+                            int.Parse(DataSecurityTripleDES.GetPlainText(userDTO.AddressId)));
+
+                        AddressViewModel addressViewModel = EntityDTOHelper.GetEntityDTO<DAL.Address, AddressViewModel>(anAddress);
+
+                        if (anAddress != null)
                         {
-                            addressViewModel.RegionAlias = region.RegionAlias;
-                            addressViewModel.RegionId = DataSecurityTripleDES.GetEncryptedText(region.Id);
-                        }
+                            DAL.Region region = dataProvider.FindRegionById(anAddress.RegionId ?? 0);
 
-                        partnerRestaurantViewModel.Addresses = new List<AddressViewModel>() { addressViewModel };
+                            if (region != null)
+                            {
+                                addressViewModel.RegionAlias = region.RegionAlias;
+                                addressViewModel.RegionId = DataSecurityTripleDES.GetEncryptedText(region.Id);
+                            }
+
+                            partnerRestaurantViewModel.Addresses = new List<AddressViewModel>() { addressViewModel };
+                        }
                     }
 
                     return View("PartnerRestaurant", partnerRestaurantViewModel);
@@ -413,7 +415,7 @@ namespace WebApplication.Controllers
 
                         c.SaveChanges();
 
-                        return View("ProfileView", new ProfileViewModel());
+                        return RedirectToAction("ProfileView");
                     }
                 }
             }
