@@ -10,6 +10,7 @@
 <h2>Checkout</h2>
 
 <h4>Your cart detail</h4>
+
 <div class="row">
     <div class="form-group" style="">
         <div class="col-sm-3">Name</div>
@@ -20,9 +21,12 @@
         <div class="col-sm-1">Remove</div>
     </div>
 </div>
-      <hr />
-        @if (Session["cart"] == null)
-        {
+<hr />
+    @{
+        var sessionCart = ((CraveatsCart)Session["cart"]);
+    }
+    @if (sessionCart == null || sessionCart.ItemCount ==0)
+    {
 <div class="row">
     <div class="form-group">
         <div class="col-sm-12 text-center" style="padding-top:10px;">
@@ -33,65 +37,90 @@
         }
         else
         {
-            var sessionCart = ((CraveatsCart)Session["cart"]);
-
             foreach (RestaurantMenuCartDTO item in sessionCart.Items)
             {
-                <div class="row">
-                  <div class="form-group">
-                      <div class="col-sm-3">
-                          @item.Name
-                      </div>
-                      <div class="col-sm-4">
-                          @item.Detail
-                      </div>
-                      <div class="col-sm-1 text-right">
-                          @CommonUtility.DoFormat(item.UnitPrice)
-                      </div>
-                      <div class="col-sm-1 text-right">
-                          @item.Quantity
-                      </div>
-                      <div class="col-sm-2 text-right">
-                          @CommonUtility.DoFormat((((item.UnitPrice ?? 0) * item.Quantity) + ((item.IsTaxable ?? false) ? ((item.UnitPrice * item.Quantity) * ((item.TaxRate ?? 0) / 100)) : 0m)))
-                      </div>
-                      <div class="col-sm-1">
-                          [ @Html.ActionLink("X", "Remove", "Cart", new { id = item.Id }, new { title = "Remove item" }) ]
-                      </div>
-                  </div>
-                </div>
+<div class="row">
+    <div class="form-group">
+        <div class="col-sm-3">
+            @item.Name
+        </div>
+        <div class="col-sm-4">
+            @item.Detail
+        </div>
+        <div class="col-sm-1 text-right">
+            @CommonUtility.DoFormat(item.UnitPrice)
+        </div>
+        <div class="col-sm-1 text-right">
+            @item.Quantity
+        </div>
+        <div class="col-sm-2 text-right">
+            @CommonUtility.DoFormat((((item.UnitPrice ?? 0) * item.Quantity) + ((item.IsTaxable ?? false) ? ((item.UnitPrice * item.Quantity) * ((item.TaxRate ?? 0) / 100)) : 0m)))
+        </div>
+        <div class="col-sm-1">
+            [ @Html.ActionLink("X", "Remove", "Cart", new { id = item.Id }, new { title = "Remove item" }) ]
+        </div>
+    </div>
+</div>
             }
-            <hr/>
-                <div class="row">
-                    <div class="form-group">
-                        <div class="col-sm-8 text-capitalize text-right">Total</div>
-                        <div class="col-sm-3 text-right">
-                            @CommonUtility.DoFormat(sessionCart.CartTotalBeforeTax)
-                        </div>
-                        <div class="col-sm-1">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-sm-8 text-capitalize text-right">Tax Total</div>
-                        <div class="col-sm-3 text-right">
-                            @CommonUtility.DoFormat(sessionCart.CartTotalTax)
-                        </div>
-                        <div class="col-sm-1">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-sm-8 text-capitalize text-right">Grand Total</div>
-                        <div class="col-sm-3 text-right">
-                            @CommonUtility.DoFormat(sessionCart.CartTotalBeforeTax + sessionCart.CartTotalTax)
-                        </div>
-                        <div class="col-sm-1">
-                        </div>
-                    </div>
+<hr />
+<div class="row">
+    <div class="form-group">
+        <div class="col-sm-8 text-capitalize text-right">Total</div>
+        <div class="col-sm-3 text-right">
+            @CommonUtility.DoFormat(sessionCart.CartTotalBeforeTax)
+        </div>
+        <div class="col-sm-1">
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-8 text-capitalize text-right">Tax Total</div>
+        <div class="col-sm-3 text-right">
+            @CommonUtility.DoFormat(sessionCart.CartTotalTax)
+        </div>
+        <div class="col-sm-1">
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-8 text-capitalize text-right">Grand Total</div>
+        <div class="col-sm-3 text-right">
+            @CommonUtility.DoFormat(sessionCart.CartTotalBeforeTax + sessionCart.CartTotalTax)
+        </div>
+        <div class="col-sm-1">
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="form-group">
+        @using (Html.BeginForm("FinalisePayment", "Cart", FormMethod.Post))
+        {
+            <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                    data-key="pk_test_XwiDfvNhs9Cos8ooStnf4cas"
+                    data-amount="@(decimal.Parse(CommonUtility.DoFormat((sessionCart.CartTotalBeforeTax + sessionCart.CartTotalTax))) * 100)"
+                    data-email="@SessionManager.GetContextSessionLoggedUserEmailAddress()"
+                    data-name="Craveats"
+                    data-description="Order Payment"
+                    data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
+                    data-locale="auto"
+                    data-currency="cad">
+            </script>
+
+            @Html.AntiForgeryToken()
+
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Confirm Order" class="btn btn-primary" />
                 </div>
+            </div>
+        }
+    </div>
+</div>
         }
 
 
-    <p>
-        @Html.ActionLink("Continue Shopping..", "Index")
-    </p>
+<p>
+    @Html.ActionLink("Continue Shopping..", "Index")
+</p>
 
 

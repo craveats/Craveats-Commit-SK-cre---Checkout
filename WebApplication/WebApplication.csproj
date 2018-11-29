@@ -52,8 +52,12 @@
     <Reference Include="PagedList.Mvc, Version=4.5.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
       <HintPath>..\packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
     </Reference>
+    <Reference Include="Stripe.net, Version=21.7.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Stripe.net.21.7.0\lib\net45\Stripe.net.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.Linq" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
@@ -358,6 +362,7 @@
     <Content Include="Views\RestaurantMenu\Delete.cshtml" />
     <Content Include="Views\RestaurantMenu\Edit.cshtml" />
     <Content Include="Views\Cart\Index.cshtml" />
+    <Content Include="Views\Cart\Success.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-readable.css" />

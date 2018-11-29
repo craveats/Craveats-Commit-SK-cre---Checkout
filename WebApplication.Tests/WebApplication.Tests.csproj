@@ -48,11 +48,16 @@
     <Reference Include="Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions">
       <HintPath>..\packages\MSTest.TestFramework.1.2.0\lib\net45\Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.dll</HintPath>
     </Reference>
+    <Reference Include="Stripe.net, Version=21.7.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Stripe.net.21.7.0\lib\net45\Stripe.net.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data.Linq" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.Web.Extensions" />

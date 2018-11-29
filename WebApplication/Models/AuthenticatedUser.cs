@@ -35,5 +35,12 @@ namespace WebApplication.Models
                 return (_seed?.UserTypeFlag ?? (int?)Common.UserTypeEnum.Unspecified).Value;
             }
         }
+
+        public string EmailAddress {
+            get
+            {
+                return _seed?.EmailAddress;
+            }
+        }
     }
 }

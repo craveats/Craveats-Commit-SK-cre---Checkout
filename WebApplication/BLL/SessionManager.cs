@@ -93,5 +93,16 @@ namespace WebApplication
                 return authenticatedUserInfo?.UserId;
             }
         }
+
+        public static string GetContextSessionLoggedUserEmailAddress()
+        {
+            object xLock = new object();
+            lock (xLock)
+            {
+                AuthenticatedUserInfo authenticatedUserInfo =
+                    HttpContext.Current.Session["loggeduser"] as AuthenticatedUserInfo;
+                return authenticatedUserInfo?.EmailAddress;
+            }
+        }
     }
 }

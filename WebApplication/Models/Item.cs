@@ -22,6 +22,10 @@ namespace WebApplication.Models
     [Serializable]
     public class CraveatsCart
     {
+        public CraveatsCart() {
+            
+        }
+
         public int ItemCount { get {
                 if (_Items == null || Items.Count == 0) return 0;
                 return _Items.Count;
@@ -50,7 +54,7 @@ namespace WebApplication.Models
                             taxOnUnitPrice = unitPriceTotal * ((!(anItem.IsTaxable??false) ? 0.00m : (anItem.TaxRate ??  13)) / 100);
 
                             totalTax += taxOnUnitPrice;
-                            total += unitPriceTotal + taxOnUnitPrice;
+                            total += unitPriceTotal;// + taxOnUnitPrice;
                         }
                     }
                 }
