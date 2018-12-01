@@ -15,6 +15,7 @@ using WebApplication.Models;
 
 namespace WebApplication.Controllers
 {
+    [Authorize, Tls]
     public class RestaurantMenuController : Controller
     {
         private CraveatsDbContext db = new CraveatsDbContext();
@@ -194,30 +195,49 @@ namespace WebApplication.Controllers
         // POST: RestaurantMenu/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost, ActionName("Edit")]
+        [HttpPost, ActionName("EditMenu")]
         [ValidateAntiForgeryToken]
-        public ActionResult EditPost(string id, string ownerType = null, string ownerId = null)
+        public ActionResult EditPost([Bind(Include = "Name, Brief, Detail, UnitPrice")] RestaurantMenu restaurantMenu, 
+            string id = null, 
+            string ownerId = null, 
+            string ownerType = null)
         {
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var RestaurantMenuToUpdate = db.RestaurantMenu.Find(int.Parse(DataSecurityTripleDES.GetPlainText(id)));
-            if (TryUpdateModel(RestaurantMenuToUpdate, "",
-               new string[] { "Name, Brief, Detail, UnitPrice" }))
+            if (restaurantMenu == null)
             {
-                try
-                {
-                    db.SaveChanges();
-
-                    return RedirectToAction("Index", new { ownerType = ownerType, ownerId = ownerId });
-                }
-                catch (RetryLimitExceededException /* dex */)
-                {
-                    //Log the error (uncomment dex variable name and add a line here to write a log.
-                    ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
-                }
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+            if ((restaurantMenu.Brief??string.Empty) == string.Empty || 
+                (restaurantMenu.Name??string.Empty) == string.Empty || 
+                (restaurantMenu.Detail??string.Empty) == string.Empty ||
+                (restaurantMenu.UnitPrice ?? 0) <=  0)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            var RestaurantMenuToUpdate = db.RestaurantMenu.Find(int.Parse(DataSecurityTripleDES.GetPlainText(id)));
+                        
+            try
+            {
+                RestaurantMenuToUpdate.UnitPrice = restaurantMenu.UnitPrice;
+                RestaurantMenuToUpdate.Name = restaurantMenu.Name;
+                RestaurantMenuToUpdate.Detail = restaurantMenu.Detail;
+                RestaurantMenuToUpdate.Brief = restaurantMenu.Brief;
+
+                db.SaveChanges();
+
+                return RedirectToAction("Index", new { ownerType = ownerType, ownerId = ownerId });
+            }
+            catch (RetryLimitExceededException /* dex */)
+            {
+                //Log the error (uncomment dex variable name and add a line here to write a log.
+                ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
+            }
+
             return View(RestaurantMenuToUpdate);
         }
 
