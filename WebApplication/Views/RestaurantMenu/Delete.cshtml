@@ -1,4 +1,5 @@
 ﻿@model WebApplication.DAL.RestaurantMenu
+@using Generic.Obfuscation.TripleDES;
 
 @{
     ViewBag.Title = "Delete";
@@ -49,10 +50,11 @@
     @using (Html.BeginForm())
     {
         @Html.AntiForgeryToken()
-
+        @Html.Hidden("ownerType", DataSecurityTripleDES.GetEncryptedText(Model.OwnerType))
+        @Html.Hidden("ownerId", DataSecurityTripleDES.GetEncryptedText(Model.OwnerId))
         <div class="form-actions no-color">
             <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "Index")
+            @Html.ActionLink("Back to List", "Index", new { ownerType = DataSecurityTripleDES.GetEncryptedText(Model.OwnerType), ownerId = DataSecurityTripleDES.GetEncryptedText(Model.OwnerId) })
         </div>
     }
 </div>

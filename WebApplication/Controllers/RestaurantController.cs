@@ -169,7 +169,7 @@ namespace WebApplication.Controllers
             }
             var RestaurantToUpdate = db.Restaurant.Find(int.Parse(DataSecurityTripleDES.GetPlainText(id)));
             if (TryUpdateModel(RestaurantToUpdate, "",
-               new string[] { "LastName", "FirstMidName", "EnrollmentDate" }))
+               new string[] { "Name", "Detail", "ContactNumber", "EmailAddress" }))
             {
                 try
                 {

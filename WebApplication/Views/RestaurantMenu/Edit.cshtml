@@ -62,7 +62,7 @@
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Back to List", "Index", new { ownerType = DataSecurityTripleDES.GetEncryptedText(Model.OwnerType), ownerId = DataSecurityTripleDES.GetEncryptedText(Model.OwnerId)})
 </div>
 
 @section Scripts {
