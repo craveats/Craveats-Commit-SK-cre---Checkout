@@ -106,3 +106,19 @@
         </dl>
     </div>
 }
+
+@if (Model.ModelUserType.HasValue && 
+    Model.ModelUserType.Value.HasFlag(WebApplication.Common.UserTypeEnum.CraveatsAdmin))
+{
+    <hr />
+    <div>
+        <h4>User management</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>View detail:</dt>
+            <dd>
+                [ @Html.ActionLink("Click to manage craveats users", "Index", "CraveatsUser") ]
+            </dd>
+        </dl>
+    </div>
+}

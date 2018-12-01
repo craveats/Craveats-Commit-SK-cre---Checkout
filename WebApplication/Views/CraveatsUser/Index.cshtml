@@ -27,7 +27,10 @@
     <table class="table">
         <tr>
             <th>
-                @Html.ActionLink("Name", "Index", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })
+                @Html.ActionLink("FirstName", "Index", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })
+            </th>
+            <th>
+                @Html.ActionLink("Surname", "Index", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })
             </th>
             <th>
                 Detail
@@ -43,7 +46,10 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => ((item.FirstName ?? "") + " " + (item.Surname ?? "")))
+                    @Html.DisplayFor(modelItem => item.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Surname)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.EmailAddress)
@@ -53,8 +59,8 @@
                 </td>
                 <td>
                     [
-                    @Html.ActionLink("Details", "Details", new { id = DataSecurityTripleDES.GetEncryptedText(item.Id) }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = DataSecurityTripleDES.GetEncryptedText(item.Id) })
+                    @*@Html.ActionLink("Details", "Details", new { id = DataSecurityTripleDES.GetEncryptedText(item.Id) }) |*@
+                    @*@Html.ActionLink("Delete", "Delete", new { id = DataSecurityTripleDES.GetEncryptedText(item.Id) })*@
                     ]
                 </td>
             </tr>
